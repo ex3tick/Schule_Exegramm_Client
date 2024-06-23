@@ -228,10 +228,12 @@ C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\staticwebas
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.WebApp.props
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\scopedcss\bundle\WebApp.styles.css
-C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\WebApp.csproj.CopyComplete
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\WebApp.dll
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\refint\WebApp.dll
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\WebApp.pdb
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\WebApp.genruntimeconfig.cache
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\ref\WebApp.dll
 C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\bin\Debug\net8.0\GenerateHash.dll
+C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\WebApp.sourcelink.json
+C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\obj\Debug\net8.0\WebApp.csproj.Up2Date
+C:\Users\ex3ti\RiderProjects\Schule_Exegramm_Client\bin\Debug\net8.0\libman.json

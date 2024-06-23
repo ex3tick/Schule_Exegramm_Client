@@ -1,18 +1,31 @@
-﻿@model dynamic
+﻿@model WebApp.Models.ModelClasses.Melder
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<h2>Register</h2>
+<form asp-action="Register" method="post" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label asp-for="Benutzername" class="form-label"></label>
+        <input asp-for="Benutzername" class="form-control" />
+        <span asp-validation-for="Benutzername" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="KennwortHash" class="form-label">Passwort</label>
+        <input asp-for="KennwortHash" type="password" class="form-control" />
+        <span asp-validation-for="KennwortHash" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>

@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
+
 namespace WebApp
 {
     public class Program
@@ -6,27 +9,34 @@ namespace WebApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //Konfiguration der Anwendung als MVC-Anwendung
+            // Konfiguration der Anwendung als MVC-Anwendung
             builder.Services.AddControllersWithViews();
+
+            // Session-Konfiguration
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = "SessionCookie";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.IsEssential = false;
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
             });
+
+            // Persistente Speicherung der Schlüssel
+            builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(@"./keys/"))
+                .SetApplicationName("YourApplicationName");
 
             var app = builder.Build();
 
-            //app.MapGet("/", () => "Hello World!");
+            // Middleware-Konfiguration
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-            //Konfiguration der Session
-
-
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            //Konfiguration der Session
             app.UseSession();
 
             app.MapControllerRoute(

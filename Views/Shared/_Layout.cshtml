@@ -1,41 +1,39 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
-    <link href="~/Content/Style.css" rel="stylesheet" type="text/css" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <header>
-    <div class="header-container">
-        <div class="logo">
-            <img src="~/Images/Kirschbaum.jpg" alt="Logo" class="header-img" />
+    <div class="header-container d-flex justify-content-between p-3 bg-dark text-white">
+        <div class="logo d-flex align-items-center">
+            <img src="~/Images/logo.jpg" alt="Logo" class="header-img rounded-circle border border-primary" />
         </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-               
+        <nav class="ml-auto">
+            <ul class="nav-links list-unstyled d-flex gap-3 m-0 p-3">
+                <li><a href="/" class="text-white text-decoration-none">Home</a></li>
+                <li><a href="/home/login" class="text-white text-decoration-none">Login</a></li>
+                <li><a href="/home/register" class="text-white text-decoration-none">Register</a></li>
             </ul>
         </nav>
     </div>
 </header>
-
-
-<div class="container" >
+<div class="container my-4">
     @RenderBody()
 </div>
-
-
 <div id="btn_oben" class="btn_oben">
-    <a href="javascript:void(0);" onclick="window.scrollTo(0,0);">⬆️</a>
+    <a href="javascript:void(0);" onclick="window.scrollTo(0,0);" class="btn btn-secondary rounded-pill">⬆️</a>
 </div>
-<footer>
-    <div class="footer">
+<footer class="footer mt-auto py-3 bg-dark text-white text-center">
+    <div class="container">
         <p>&copy; 2024 - WebApp Vorlage 1</p>
     </div>
 </footer>
-
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>

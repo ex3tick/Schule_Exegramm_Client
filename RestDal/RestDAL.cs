@@ -6,10 +6,10 @@ namespace WebApp.RestDal;
 
 public class RestDAL : IAccessible
 {
-    private readonly string melderUrl = "https://localhost:44343/api/Melder";
-    private readonly string kategorieUrl = "https://localhost:44343/api/Kategorie";
-    private readonly string sichtungUrl = "https://localhost:44343/api/Sichtung";
-    private readonly string bildUrl = "https://localhost:44343/api/Bild";
+    private readonly string melderUrl = "http://localhost:5277/api/Melder";
+    private readonly string kategorieUrl = "http://localhost:5277/api/Kategorie";
+    private readonly string sichtungUrl = "http://localhost:5277/api/Sichtung";
+    private readonly string bildUrl = "http://localhost:5277/api/Bild";
     private readonly HttpClient client = new HttpClient();
 
 
@@ -127,11 +127,11 @@ public class RestDAL : IAccessible
                if (response.IsSuccessStatusCode)
                {
                      return Task.FromResult(true);
-                }
-                else
-                {
-                     var errorContent = response.Content.ReadAsStringAsync().Result;
-                     throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+               }
+               else
+               {
+                   var errorContent = response.Content.ReadAsStringAsync().Result;
+                   throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
                 
                }
         }
@@ -144,96 +144,337 @@ public class RestDAL : IAccessible
 
     public Task<Kategorie> GetKategorieByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Kategorie kategorie = client.GetFromJsonAsync<Kategorie>($"{kategorieUrl}/?id={id}").Result;
+            return Task.FromResult(kategorie);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<Kategorie> GetKategorieByBezeichnungAsync(string bezeichnung)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Kategorie kategorie = client.GetFromJsonAsync<Kategorie>($"{kategorieUrl}/Bezeichnung?bezeichnung={bezeichnung}").Result;
+            return Task.FromResult(kategorie);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<List<Kategorie>> GetAllKategorieAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            return client.GetFromJsonAsync<List<Kategorie>>(kategorieUrl);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<int> AddKategorieAsync(Kategorie kategorie)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.PostAsJsonAsync(kategorieUrl, kategorie).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult((int)response.StatusCode);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<bool> UpdateKategorieAsync(Kategorie kategorie)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.PutAsJsonAsync(kategorieUrl, kategorie).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<bool> DeleteKategorieAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.DeleteAsync($"{kategorieUrl}/?id={id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<Sichtung> GetSichtungByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Sichtung sichtung = client.GetFromJsonAsync<Sichtung>($"{sichtungUrl}/?id={id}").Result;
+            return Task.FromResult(sichtung);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<List<Sichtung>> GetAllSichtungAsync()
     {
-        throw new NotImplementedException();
+           try
+            {
+                return client.GetFromJsonAsync<List<Sichtung>>(sichtungUrl);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
     }
 
     public Task<List<Sichtung>> GetSichtungByKategorieIdAsync(int kategorieId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            List<Sichtung> sichtung = client.GetFromJsonAsync<List<Sichtung>>($"{sichtungUrl}/KategorieId?kategorieId={kategorieId}").Result;
+            return Task.FromResult(sichtung);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<List<Sichtung>> GetSichtungByMelderIdAsync(int melderId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            List<Sichtung> sichtung = client.GetFromJsonAsync<List<Sichtung>>($"{sichtungUrl}/MelderId?melderId={melderId}").Result;
+            return Task.FromResult(sichtung);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<int> AddSichtungAsync(Sichtung sichtung)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.PostAsJsonAsync(sichtungUrl, sichtung).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult((int)response.StatusCode);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<bool> UpdateSichtungAsync(Sichtung sichtung)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.PutAsJsonAsync(sichtungUrl, sichtung).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
     }
 
     public Task<bool> DeleteSichtungAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.DeleteAsync($"{sichtungUrl}/?id={id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<Bild> GetBildByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            Bild bild = client.GetFromJsonAsync<Bild>($"{bildUrl}/?id={id}").Result;
+            return Task.FromResult(bild);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<List<Bild>> GetBildBySichtungIdAsync(int sichtungId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            List<Bild> bild = client.GetFromJsonAsync<List<Bild>>($"{bildUrl}/SichtungId?sichtungId={sichtungId}").Result;
+            return Task.FromResult(bild);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<List<Bild>> GetAllBildAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            return client.GetFromJsonAsync<List<Bild>>(bildUrl);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<int> AddBildAsync(Bild bild)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.PostAsJsonAsync(bildUrl, bild).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult((int)response.StatusCode);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<bool> UpdateBildAsync(Bild bild)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.PutAsJsonAsync(bildUrl, bild).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Task<bool> DeleteBildAsync(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = client.DeleteAsync($"{bildUrl}/?id={id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                var errorContent = response.Content.ReadAsStringAsync().Result;
+                throw new Exception($"Fehler: {response.StatusCode}, Nachricht: {errorContent}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
