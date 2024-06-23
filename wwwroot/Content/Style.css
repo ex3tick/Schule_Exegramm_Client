@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    background-color: #f0f0f0;
+    color: #333333;
+    font-family: 'Georama', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    min-height: 100vh;
+}
+
+
+/*Header*/
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+    background-color: #333;
+    color: #fff;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-img {
+    width: 120px;
+    height: 120px;
+    border: 5px solid #216477;
+    border-radius: 50%;
+}
+
+nav {
+    margin-left: auto;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 25px;
+    margin: 15px;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    color: #00ffff
+}
+
+.btn_oben a {
+    color: #f0f0f0;
+    background-color: #a09f9f;
+    width: min-content;
+    padding: 15px 40px;
+    border-radius: 50px;
+    margin: 0 auto;
+    text-decoration: none;
+    position: fixed;
+    right: 0;
+    top: 50%;
+}
+
+.btn_oben a:hover {
+    color: #00ffff;
+}

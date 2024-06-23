@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "KHUj5hRlkiAdciT2VKRRsBF40gtwXKO6psdI6QmdcIQ=",
+  "Source": "WebApp",
+  "BasePath": "_content/WebApp",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebApp\\wwwroot",
+      "Source": "WebApp",
+      "ContentRoot": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\",
+      "BasePath": "_content/WebApp",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Content\\Style.css",
+      "SourceId": "WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\",
+      "BasePath": "_content/WebApp",
+      "RelativePath": "Content/Style.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Content\\Style.css"
+    },
+    {
+      "Identity": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Images\\ex3.jpeg",
+      "SourceId": "WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\",
+      "BasePath": "_content/WebApp",
+      "RelativePath": "Images/ex3.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Always",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\ex3.jpeg"
+    }
+  ]
+}

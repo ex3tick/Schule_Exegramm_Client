@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+    <link href="~/Content/Style.css" rel="stylesheet" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width" charset="utf-8" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <img src="~/Images/Kirschbaum.jpg" alt="Logo" class="header-img" />
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+               
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<div class="container" >
+    @RenderBody()
+</div>
+
+
+<div id="btn_oben" class="btn_oben">
+    <a href="javascript:void(0);" onclick="window.scrollTo(0,0);">⬆️</a>
+</div>
+<footer>
+    <div class="footer">
+        <p>&copy; 2024 - WebApp Vorlage 1</p>
+    </div>
+</footer>
+
+</body>
