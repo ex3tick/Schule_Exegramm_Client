@@ -1,18 +1,60 @@
-﻿
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<DTOIndex>
 
-<!DOCTYPE html>
-<html>
-
-
-<head>
-    <meta name="viewport" content="width=device-width"/>
-    <title>Index</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-</head>
-<body>
-<div>
-<p>dsadasdasdasdasdadas
-dasdasdasdsadasddddddddddddddddddddddddddddddddddddddddddd</p>
+<div class="container mt-5">
+    @foreach (var dto in Model)
+    {
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="card-title">@dto.Melder.Benutzername</h2>
+        </div>
+        <div class="card-body">
+            @if (dto.Sichtungen != null && dto.Sichtungen.Count > 0)
+            {
+            @foreach (var sichtungWithBilder in dto.Sichtungen)
+            {
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">Sichtung ID: @sichtungWithBilder.Sichtung.SId</h3>
+                </div>
+                <div class="card-body">
+                    @if (sichtungWithBilder.Bilder != null && sichtungWithBilder.Bilder.Count > 0)
+                    {
+                    <div style="background-color: #9d9e97"> 
+                        <div id="carousel-@sichtungWithBilder.Sichtung.SId" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @for (var i = 0; i < sichtungWithBilder.Bilder.Count; i++)
+                                {
+                                    var bild = sichtungWithBilder.Bilder[i];
+                                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                                        <img src="@Url.Content("~/images/" + bild.Name)" class="d-block w-100 img-fluid" alt="Bild" style="max-height: 300px; object-fit: contain;" />
+                                    </div>
+                                }
+                            </div>
+                            <a class="carousel-control-prev" href="#carousel-@sichtungWithBilder.Sichtung.SId" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-@sichtungWithBilder.Sichtung.SId" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    }
+                    else
+                    {
+                    <p>No images available.</p>
+                    }
+                </div>
+            </div>
+            }
+            }
+            else
+            {
+            <p>No sightings available for this Melder.</p>
+            }
+        </div>
+    </div>
+    }
 </div>
-</body>
-</html>

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@ViewBag.Title</title>
     <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    
     <link href="~/Content/Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -19,15 +20,18 @@
                 <li><a href="/" class="text-white text-decoration-none">Home</a></li>
                 @if(ViewBag.Melder != null)
                 {
-                    <li><a href="/home/logout" class="text-white text-decoration-none">Logout</a></li>
-                     
+                    <li><a href="/login/profil?id=@ViewBag.MelderId">@ViewBag.Melder</a></li>
+                <li><a href="/home/logout" class="text-white text-decoration-none">Logout</a></li>
+                @if(ViewBag.IsAdmin)
+                {
+                <li><a href="/admin/admin" class="text-white text-decoration-none">Admin</a></li>
+                }
                 }
                 else
                 {
-                    <li><a href="/home/login" class="text-white text-decoration-none">Login</a></li>
-                    <li><a href="/home/register" class="text-white text-decoration-none">Register</a></li>
+                <li><a href="/home/login" class="text-white text-decoration-none">Login</a></li>
+                <li><a href="/home/register" class="text-white text-decoration-none">Register</a></li>
                 }
-                
             </ul>
         </nav>
     </div>

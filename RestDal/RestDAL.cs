@@ -13,7 +13,7 @@ public class RestDAL : IAccessible
     private readonly HttpClient _client  = new HttpClient();
 
 
-
+        
     
     [HttpGet]
     public async Task<Melder> GetMelderByIdAsync(int id)
@@ -82,7 +82,8 @@ public class RestDAL : IAccessible
             var response = await _client.PostAsJsonAsync(melderUrl, melder);
             if (response.IsSuccessStatusCode)
             {
-                return (int)response.StatusCode;
+               var mId = await response.Content.ReadAsStringAsync();
+                return int.Parse(mId);
             }
             else
             {
@@ -231,7 +232,8 @@ public class RestDAL : IAccessible
             var response = _client.PostAsJsonAsync(kategorieUrl, kategorie).Result;
             if (response.IsSuccessStatusCode)
             {
-                return Task.FromResult((int)response.StatusCode);
+                var kId = response.Content.ReadAsStringAsync().Result;
+                return Task.FromResult(int.Parse(kId));
             }
             else
             {
@@ -352,7 +354,8 @@ public class RestDAL : IAccessible
             var response = _client.PostAsJsonAsync(sichtungUrl, sichtung).Result;
             if (response.IsSuccessStatusCode)
             {
-                return Task.FromResult((int)response.StatusCode);
+               var sId = response.Content.ReadAsStringAsync().Result;
+                return Task.FromResult(int.Parse(sId));
             }
             else
             {
@@ -460,7 +463,8 @@ public class RestDAL : IAccessible
             var response = _client.PostAsJsonAsync(bildUrl, bild).Result;
             if (response.IsSuccessStatusCode)
             {
-                return Task.FromResult((int)response.StatusCode);
+                var bId = response.Content.ReadAsStringAsync().Result;
+                return Task.FromResult(int.Parse(bId));
             }
             else
             {

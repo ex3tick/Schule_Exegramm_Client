@@ -14,7 +14,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
 <body>
 <div>
     <h2>Login</h2>
-    <form asp-action="Login" method="post" class="needs-validation" novalidate>
+    <form asp-action="Login" method="post" >
         <label asp-for="Login" class="form-label">Email oder Benutzername</label>
         <input asp-for="Login" class="form-control" />
         <span asp-validation-for="Login" class="text-danger"></span>

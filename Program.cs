@@ -9,10 +9,8 @@ namespace WebApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Konfiguration der Anwendung als MVC-Anwendung
             builder.Services.AddControllersWithViews();
 
-            // Session-Konfiguration
             builder.Services.AddSession(options =>
             {
                 options.Cookie.Name = "SessionCookie";
@@ -20,11 +18,21 @@ namespace WebApp
                 options.Cookie.IsEssential = true;
             });
 
-          
+            builder.Services.AddAuthentication("CookieAuthentifizierung").AddCookie("CookieAuthentifizierung", Konf =>
+            {
+                Konf.Cookie.Name = "UserLoginCookie";
+                Konf.LoginPath = "/home/Login";
+                Konf.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                //Festlegung des Umleitungsparameter. Standardm��ig ist dies "ReturnUrl".
+                Konf.ReturnUrlParameter = "Umleitung";
+                //Festlegung des Pfads f�r den Zugriff verweigert. (F�r angemeldete User ohne erweiterte Rechte)
+                Konf.AccessDeniedPath = "/home/AccessDenied";
+            });
+
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-            // Middleware-Konfiguration
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -33,7 +41,11 @@ namespace WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
+
+            app.UseAuthorization();
+
             app.UseSession();
 
             app.MapControllerRoute(

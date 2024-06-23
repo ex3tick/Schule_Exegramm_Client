@@ -5,8 +5,20 @@
       "PackagePath": "staticwebassets\\Content\\Style.css"
     },
     {
+      "Id": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Images\\8857ab15-c1de-4928-8b24-c79318567cb3.JPG",
+      "PackagePath": "staticwebassets\\Images\\8857ab15-c1de-4928-8b24-c79318567cb3.JPG"
+    },
+    {
+      "Id": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Images\\ba2bccfd-1127-457c-ac5f-56eeafba7558.webp",
+      "PackagePath": "staticwebassets\\Images\\ba2bccfd-1127-457c-ac5f-56eeafba7558.webp"
+    },
+    {
       "Id": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Images\\ex3.jpeg",
       "PackagePath": "staticwebassets\\Images\\ex3.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Images\\ff208a64-bc64-4546-a2e3-98e9cb47da3c.webp",
+      "PackagePath": "staticwebassets\\Images\\ff208a64-bc64-4546-a2e3-98e9cb47da3c.webp"
     },
     {
       "Id": "C:\\Users\\ex3ti\\RiderProjects\\Schule_Exegramm_Client\\wwwroot\\Images\\logo.jpg",

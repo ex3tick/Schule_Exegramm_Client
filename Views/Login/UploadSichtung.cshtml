@@ -1,0 +1,43 @@
+﻿@model WebApp.Models.ModelClasses.DTOSichtungUplaod
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+ViewBag.Title = "title";
+Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+<form asp-action="UploadSichtung" method="post" enctype="multipart/form-data">
+    <label asp-for="Sichtung.Titel"></label>
+    <input asp-for="Sichtung.Titel" />
+    <span asp-validation-for="Sichtung.Titel" class="text-danger"></span>
+
+    <div class="mb-3">
+        <label asp-for="Sichtung.Anmerkung" class="form-label"></label>
+        <textarea class="form-control" asp-for="Sichtung.Anmerkung" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Sichtung.Datum" class="form-label"></label>
+        <input asp-for="Sichtung.Datum" class="form-control" />
+        <span asp-validation-for="Sichtung.Datum" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Sichtung.Laengengrad"></label>
+        <input asp-for="Sichtung.Laengengrad" />
+        <span asp-validation-for="Sichtung.Laengengrad" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Sichtung.Breitengrad"></label>
+        <input asp-for="Sichtung.Breitengrad" />
+        <span asp-validation-for="Sichtung.Breitengrad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="File" class="form-label">Multiple files input example</label>
+        <input class="form-control" asp-for="File" type="file" id="formFileMultiple" name="File" multiple>
+    </div>
+
+    <input type="submit" class="btn btn-primary" />
+</form>
