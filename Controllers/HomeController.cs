@@ -73,12 +73,12 @@ namespace WebApp.Controllers
             catch (HttpRequestException httpEx)
             {
                 Console.WriteLine($"HttpRequestException: {httpEx.Message}");
-                return StatusCode(500, "An error occurred while fetching data from the API.");
+                return StatusCode(500, "ein Fehler ist aufgetreten");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "ein Fehler ist aufgetreten");
             }
         }
 
@@ -177,6 +177,15 @@ namespace WebApp.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+        
+        public async Task<IActionResult> SichtungDetails(int id)
+        {
+            getViewBags();
+            var sichtung = await _dal.GetSichtungByIdAsync(id);
+            var bilder = await _dal.GetBildBySichtungIdAsync(id) ?? new List<Bild>();
+            var sichtungMitBilder = new SichtungMitBilder { Sichtung = sichtung, Bilder = bilder };
+            return View(sichtungMitBilder);
         }
     }
 }

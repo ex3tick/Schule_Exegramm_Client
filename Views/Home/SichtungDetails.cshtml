@@ -1,0 +1,46 @@
+﻿@model SichtungMitBilder
+
+@{
+    ViewBag.Title = "Detailansicht";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Sichtung ID: @Model.Sichtung.SId</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Beschreibung:</strong> @Model.Sichtung.Anmerkung</p>
+            <p><strong>Datum:</strong> @Model.Sichtung.Datum.ToString("dd.MM.yyyy")</p>
+            <><strong>Ort:</strong> <p>Laengengrad @Model.Sichtung.Laengengrad  </p> <p>Breitengrad <>@Model.Sichtung.Breitengrad</p>
+            
+            @if (Model.Bilder != null && Model.Bilder.Count > 0)
+            {
+                <div id="carousel-@Model.Sichtung.SId" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (var i = 0; i < Model.Bilder.Count; i++)
+                        {
+                            var bild = Model.Bilder[i];
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@Url.Content("~/images/" + bild.Name)" class="d-block w-100 img-fluid" alt="Bild" style="max-height: 500px; object-fit: contain;" />
+                            </div>
+                        }
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel-@Model.Sichtung.SId" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-@Model.Sichtung.SId" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <p>No images available.</p>
+            }
+        </div>
+    </div>
+</div>
