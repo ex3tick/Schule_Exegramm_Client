@@ -6,19 +6,21 @@ namespace WebApp.RestDal;
 
 public class RestDAL : IAccessible
 {
-    private readonly string melderUrl = "http://localhost:5277/api/Melder";
-    private readonly string kategorieUrl = "http://localhost:5277/api/Kategorie";
-    private readonly string sichtungUrl = "http://localhost:5277/api/Sichtung";
-    private readonly string bildUrl = "http://localhost:5277/api/Bild";
-    private readonly HttpClient client = new HttpClient();
+    private readonly string melderUrl = "https://localhost:5277/api/Melder";
+    private readonly string kategorieUrl = "https://localhost:5277/api/Kategorie";
+    private readonly string sichtungUrl = "https://localhost:5277/api/Sichtung";
+    private readonly string bildUrl = "https://localhost:5277/api/Bild";
+    private readonly HttpClient _client  = new HttpClient();
 
 
+
+    
     [HttpGet]
     public async Task<Melder> GetMelderByIdAsync(int id)
     {
         try
         {
-            Melder melder = await client.GetFromJsonAsync<Melder>($"{melderUrl}/?id={id}");
+            Melder melder = await _client.GetFromJsonAsync<Melder>($"{melderUrl}/?id={id}");
             return melder;
         }
         catch (Exception e)
@@ -29,12 +31,12 @@ public class RestDAL : IAccessible
     }
 
     [HttpGet]
-    public Task<Melder> GetMelderByBenutzernameAsync(string benutzername)
+    public  async Task<Melder> GetMelderByBenutzernameAsync(string benutzername)
     {
         try
         {
-            Melder melder = client.GetFromJsonAsync<Melder>($"{melderUrl}/Benutzername?benutzername={benutzername}").Result;
-            return Task.FromResult(melder);
+            Melder melder = await _client.GetFromJsonAsync<Melder>($"{melderUrl}/Benutzername?benutzername={benutzername}");
+            return melder;
         }
         catch (Exception e)
         {
@@ -44,12 +46,12 @@ public class RestDAL : IAccessible
     }
 
     [HttpGet]
-    public Task<Melder> GetMelderByEmailAsync(string email)
+    public async Task<Melder> GetMelderByEmailAsync(string email)
     {
         try
         {
-            Melder melder = client.GetFromJsonAsync<Melder>($"{melderUrl}/Email?email={email}").Result;
-            return Task.FromResult(melder);
+            Melder? melder = await _client.GetFromJsonAsync<Melder>($"https://localhost:5277/api/Melder/Email?email={email}");
+            return melder;
         }
         catch (Exception e)
         {
@@ -63,7 +65,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            return await client.GetFromJsonAsync<List<Melder>>(melderUrl);
+            return await _client.GetFromJsonAsync<List<Melder>>(melderUrl);
         }
         catch (Exception e)
         {
@@ -77,7 +79,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = await client.PostAsJsonAsync(melderUrl, melder);
+            var response = await _client.PostAsJsonAsync(melderUrl, melder);
             if (response.IsSuccessStatusCode)
             {
                 return (int)response.StatusCode;
@@ -100,7 +102,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = await client.PutAsJsonAsync(melderUrl, melder);
+            var response = await _client.PutAsJsonAsync(melderUrl, melder);
             if (response.IsSuccessStatusCode)
             {
                 return await Task.FromResult(true);
@@ -123,7 +125,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-               var response = client.DeleteAsync($"{melderUrl}/?id={id}").Result;
+               var response = _client.DeleteAsync($"{melderUrl}/?id={id}").Result;
                if (response.IsSuccessStatusCode)
                {
                      return Task.FromResult(true);
@@ -142,11 +144,50 @@ public class RestDAL : IAccessible
         }    
     }
 
+    public async Task<bool> IsEmailInUseAsync(string email)
+    {
+        try
+        {
+          var response = await _client.GetAsync($"{melderUrl}/Email?email={email}");
+           if(response.IsSuccessStatusCode)
+           {
+               return true;
+           }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        return false;
+    }
+
+    public Task<bool> IsBenutzernameInUseAsync(string benutzername)
+    {
+        try
+        {
+             var response = _client.GetAsync($"{melderUrl}/Benutzername?benutzername={benutzername}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                 return Task.FromResult(true);
+                }
+                else
+                {
+                 return Task.FromResult(false);
+                }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public Task<Kategorie> GetKategorieByIdAsync(int id)
     {
         try
         {
-            Kategorie kategorie = client.GetFromJsonAsync<Kategorie>($"{kategorieUrl}/?id={id}").Result;
+            Kategorie kategorie = _client.GetFromJsonAsync<Kategorie>($"{kategorieUrl}/?id={id}").Result;
             return Task.FromResult(kategorie);
         }
         catch (Exception e)
@@ -160,7 +201,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            Kategorie kategorie = client.GetFromJsonAsync<Kategorie>($"{kategorieUrl}/Bezeichnung?bezeichnung={bezeichnung}").Result;
+            Kategorie kategorie = _client.GetFromJsonAsync<Kategorie>($"{kategorieUrl}/Bezeichnung?bezeichnung={bezeichnung}").Result;
             return Task.FromResult(kategorie);
         }
         catch (Exception e)
@@ -174,7 +215,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            return client.GetFromJsonAsync<List<Kategorie>>(kategorieUrl);
+            return _client.GetFromJsonAsync<List<Kategorie>>(kategorieUrl);
         }
         catch (Exception e)
         {
@@ -187,7 +228,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.PostAsJsonAsync(kategorieUrl, kategorie).Result;
+            var response = _client.PostAsJsonAsync(kategorieUrl, kategorie).Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult((int)response.StatusCode);
@@ -209,7 +250,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.PutAsJsonAsync(kategorieUrl, kategorie).Result;
+            var response = _client.PutAsJsonAsync(kategorieUrl, kategorie).Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult(true);
@@ -231,7 +272,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.DeleteAsync($"{kategorieUrl}/?id={id}").Result;
+            var response = _client.DeleteAsync($"{kategorieUrl}/?id={id}").Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult(true);
@@ -253,7 +294,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            Sichtung sichtung = client.GetFromJsonAsync<Sichtung>($"{sichtungUrl}/?id={id}").Result;
+            Sichtung sichtung = _client.GetFromJsonAsync<Sichtung>($"{sichtungUrl}/?id={id}").Result;
             return Task.FromResult(sichtung);
         }
         catch (Exception e)
@@ -267,7 +308,7 @@ public class RestDAL : IAccessible
     {
            try
             {
-                return client.GetFromJsonAsync<List<Sichtung>>(sichtungUrl);
+                return _client.GetFromJsonAsync<List<Sichtung>>(sichtungUrl);
             }
             catch (Exception e)
             {
@@ -280,7 +321,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            List<Sichtung> sichtung = client.GetFromJsonAsync<List<Sichtung>>($"{sichtungUrl}/KategorieId?kategorieId={kategorieId}").Result;
+            List<Sichtung> sichtung = _client.GetFromJsonAsync<List<Sichtung>>($"{sichtungUrl}/KategorieId?kategorieId={kategorieId}").Result;
             return Task.FromResult(sichtung);
         }
         catch (Exception e)
@@ -294,7 +335,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            List<Sichtung> sichtung = client.GetFromJsonAsync<List<Sichtung>>($"{sichtungUrl}/MelderId?melderId={melderId}").Result;
+            List<Sichtung> sichtung = _client.GetFromJsonAsync<List<Sichtung>>($"{sichtungUrl}/MelderId?melderId={melderId}").Result;
             return Task.FromResult(sichtung);
         }
         catch (Exception e)
@@ -308,7 +349,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.PostAsJsonAsync(sichtungUrl, sichtung).Result;
+            var response = _client.PostAsJsonAsync(sichtungUrl, sichtung).Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult((int)response.StatusCode);
@@ -330,7 +371,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.PutAsJsonAsync(sichtungUrl, sichtung).Result;
+            var response = _client.PutAsJsonAsync(sichtungUrl, sichtung).Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult(true);
@@ -353,7 +394,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.DeleteAsync($"{sichtungUrl}/?id={id}").Result;
+            var response = _client.DeleteAsync($"{sichtungUrl}/?id={id}").Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult(true);
@@ -375,7 +416,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            Bild bild = client.GetFromJsonAsync<Bild>($"{bildUrl}/?id={id}").Result;
+            Bild bild = _client.GetFromJsonAsync<Bild>($"{bildUrl}/?id={id}").Result;
             return Task.FromResult(bild);
         }
         catch (Exception e)
@@ -389,7 +430,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            List<Bild> bild = client.GetFromJsonAsync<List<Bild>>($"{bildUrl}/SichtungId?sichtungId={sichtungId}").Result;
+            List<Bild> bild = _client.GetFromJsonAsync<List<Bild>>($"{bildUrl}/SichtungId?sichtungId={sichtungId}").Result;
             return Task.FromResult(bild);
         }
         catch (Exception e)
@@ -403,7 +444,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            return client.GetFromJsonAsync<List<Bild>>(bildUrl);
+            return _client.GetFromJsonAsync<List<Bild>>(bildUrl);
         }
         catch (Exception e)
         {
@@ -416,7 +457,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.PostAsJsonAsync(bildUrl, bild).Result;
+            var response = _client.PostAsJsonAsync(bildUrl, bild).Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult((int)response.StatusCode);
@@ -438,7 +479,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.PutAsJsonAsync(bildUrl, bild).Result;
+            var response = _client.PutAsJsonAsync(bildUrl, bild).Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult(true);
@@ -460,7 +501,7 @@ public class RestDAL : IAccessible
     {
         try
         {
-            var response = client.DeleteAsync($"{bildUrl}/?id={id}").Result;
+            var response = _client.DeleteAsync($"{bildUrl}/?id={id}").Result;
             if (response.IsSuccessStatusCode)
             {
                 return Task.FromResult(true);

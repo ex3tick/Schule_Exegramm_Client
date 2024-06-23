@@ -20,10 +20,7 @@ namespace WebApp
                 options.Cookie.IsEssential = true;
             });
 
-            // Persistente Speicherung der Schlüssel
-            builder.Services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(@"./keys/"))
-                .SetApplicationName("YourApplicationName");
+          
 
             var app = builder.Build();
 

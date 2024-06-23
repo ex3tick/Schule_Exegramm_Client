@@ -12,6 +12,9 @@ public interface IAccessible
     Task<int> AddMelderAsync(Melder melder);
     Task<bool> UpdateMelderAsync(Melder melder);
     Task<bool> DeleteMelderAsync(int id);
+    
+    Task<bool>IsEmailInUseAsync(string email);
+    Task<bool>IsBenutzernameInUseAsync(string benutzername);
     #endregion
 
     #region Kategorie

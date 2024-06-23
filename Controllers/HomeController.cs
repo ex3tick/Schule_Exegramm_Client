@@ -17,12 +17,12 @@ namespace WebApp.Controllers
         public HomeController()
         {
             _businessLayer = new BusinessLayer.BusinessLayer();
-            _dal = new RestDAL();
+            _dal = new RestDAL( );
         }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-       
+            ViewBag.Melder = HttpContext.Session.GetString("Melder");
             return View();
         }
         [HttpGet]
@@ -61,15 +61,16 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(string login, string kennwort)
+        public async Task<IActionResult> Login(DTOLoginMelder loginMelder)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Melder melder = await _businessLayer.LoginMelder(login, kennwort);
+                    Melder melder = await _businessLayer.LoginMelder(loginMelder.Login, loginMelder.Kennwort);
                     if (melder != null)
                     {
+                         HttpContext.Session.SetString("Melder", melder.Benutzername);
                         return RedirectToAction("Index");
                     }
                 }
@@ -81,8 +82,13 @@ namespace WebApp.Controllers
             }
             return View();
         }
-        
-        
-        
+
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Remove("Melder");
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

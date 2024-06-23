@@ -18,28 +18,32 @@ public class BusinessLayer
     {
         try
         {
-            if (await _dal.GetMelderByEmailAsync(melder.Email) != null &&
-                await _dal.GetMelderByBenutzernameAsync(melder.Benutzername) != null)
+            if (await _dal.IsEmailInUseAsync( melder.Email))
             {
-                throw new Exception("Email oder Benutzername bereits vergeben!");
+                throw new Exception("Email bereits vergeben!");
             }
+          
+            
+            if (await _dal.IsBenutzernameInUseAsync(melder.Benutzername))
+            {
+                throw new Exception("Benutzername bereits vergeben!");
+            }
+
             melder.Salt = HashHelper.HashHelper.SaltGenerate();
             melder.KennwortHash = HashHelper.HashHelper.HashGenerate(melder.KennwortHash, melder.Salt, Pepper);
             melder.RegDatum = DateTime.Now;
-            _dal.AddMelderAsync(melder);
+
+            await _dal.AddMelderAsync(melder); // await hier hinzufügen
             return true;
-            
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw new Exception("Es ist ein Fehler aufgetreten!");
-            
+            throw new Exception("Es ist ein Fehler aufgetreten!", e); // Ursprung des Fehlers behalten
         }
-       
     }
 
-    //login geht ueber email oder benutzername
+    // login geht ueber email oder benutzername
     public async Task<Melder> LoginMelder(string login, string kennwort)
     {
         if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(kennwort))
@@ -68,12 +72,12 @@ public class BusinessLayer
         }
         catch (UnauthorizedAccessException ex)
         {
-            throw new Exception(ex.Message); 
+            throw new Exception(ex.Message);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex); 
-            throw new Exception("Es ist ein Fehler aufgetreten!");
+            Console.WriteLine(ex);
+            throw new Exception("Es ist ein Fehler aufgetreten!", ex); // Ursprung des Fehlers behalten
         }
     }
 
@@ -81,8 +85,4 @@ public class BusinessLayer
     {
         return HashHelper.HashHelper.HashGenerate(kennwort, melder.Salt, Pepper) == melder.KennwortHash;
     }
-
-
-
-
 }
