@@ -14,6 +14,7 @@ namespace WebApp.Controllers
     {
         private readonly IAccessible _dal;
         private readonly BusinessLayer.BusinessLayer _businessLayer;
+        
 
 
         public void getViewBags()
@@ -39,50 +40,102 @@ namespace WebApp.Controllers
             _businessLayer = new BusinessLayer.BusinessLayer();
             _dal = new RestDAL();
         }
+[HttpGet]
+public async Task<IActionResult> Index()
+{
+    try
+    {
+        getViewBags();
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+        List<Melder> melderList = await _dal.GetAllMelderAsync();
+        List<Sichtung> sichtungenList = await _dal.GetAllSichtungAsync();
+        List<Kategorie> kategorienList = await _dal.GetAllKategorieAsync();
+        List<DTOIndex> dtoList = new List<DTOIndex>();
+
+        foreach (var melder in melderList)
         {
-            try
+            var dtoIndex = new DTOIndex { Melder = melder };
+
+            var sichtungenForMelder = sichtungenList.Where(s => s.MId == melder.MId).ToList();
+            if (sichtungenForMelder.Count > 0)
             {
-                getViewBags();
-
-                List<Melder> melderList = await _dal.GetAllMelderAsync();
-                List<Sichtung> sichtungenList = await _dal.GetAllSichtungAsync();
-                List<DTOIndex> dtoList = new List<DTOIndex>();
-
-                foreach (var melder in melderList)
+                foreach (var sichtung in sichtungenForMelder)
                 {
-                    var dtoIndex = new DTOIndex { Melder = melder };
-
-                    var sichtungenForMelder = sichtungenList.Where(s => s.MId == melder.MId).ToList();
-                    if (sichtungenForMelder.Count > 0)
-                    {
-                        foreach (var sichtung in sichtungenForMelder)
-                        {
-                            var bilder = await _dal.GetBildBySichtungIdAsync(sichtung.SId) ?? new List<Bild>();
-                            dtoIndex.Sichtungen.Add(new SichtungMitBilder { Sichtung = sichtung, Bilder = bilder });
-                        }
-
-                        dtoList.Add(dtoIndex);
-                    }
+                    var bilder = await _dal.GetBildBySichtungIdAsync(sichtung.SId) ?? new List<Bild>();
+                    dtoIndex.Sichtungen.Add(new SichtungMitBilder { Sichtung = sichtung, Bilder = bilder });
                 }
 
-                return View(dtoList);
-            }
-            catch (HttpRequestException httpEx)
-            {
-                Console.WriteLine($"HttpRequestException: {httpEx.Message}");
-                return StatusCode(500, "ein Fehler ist aufgetreten");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return StatusCode(500, "ein Fehler ist aufgetreten");
+                dtoList.Add(dtoIndex);
             }
         }
 
+        ViewBag.Kategorien = kategorienList;
+        return View(dtoList);
+    }
+    catch (HttpRequestException httpEx)
+    {
+        Console.WriteLine($"HttpRequestException: {httpEx.Message}");
+        return StatusCode(500, "ein Fehler ist aufgetreten");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+        return StatusCode(500, "ein Fehler ist aufgetreten");
+    }
+}
 
+[HttpPost]
+public async Task<IActionResult> Index(string? titelSearch, int? kategorie)
+{
+    try
+    {
+        getViewBags();
+        List<Melder> melderList = await _dal.GetAllMelderAsync();
+        List<Sichtung> sichtungenList = await _dal.GetAllSichtungAsync();
+        List<Kategorie> kategorienList = await _dal.GetAllKategorieAsync();
+        List<DTOIndex> dtoList = new List<DTOIndex>();
+
+        foreach (var melder in melderList)
+        {
+            var dtoIndex = new DTOIndex { Melder = melder };
+
+            var sichtungenForMelder = sichtungenList.Where(s => s.MId == melder.MId).ToList();
+            if (sichtungenForMelder.Count > 0)
+            {
+                foreach (var sichtung in sichtungenForMelder)
+                {
+                    var bilder = await _dal.GetBildBySichtungIdAsync(sichtung.SId) ?? new List<Bild>();
+                    dtoIndex.Sichtungen.Add(new SichtungMitBilder { Sichtung = sichtung, Bilder = bilder });
+                }
+
+                dtoList.Add(dtoIndex);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(titelSearch))
+        {
+            dtoList = dtoList.Where(dto => dto.Sichtungen.Any(s => s.Sichtung.Titel.Contains(titelSearch, StringComparison.OrdinalIgnoreCase))).ToList();
+        }
+
+        if (kategorie.HasValue)
+        {
+            dtoList = dtoList.Where(dto => dto.Sichtungen.Any(s => s.Sichtung.KId == kategorie)).ToList();
+        }
+
+        ViewBag.Kategorien = kategorienList;
+        return View(dtoList);
+    }
+    catch (HttpRequestException httpEx)
+    {
+        Console.WriteLine($"HttpRequestException: {httpEx.Message}");
+        return StatusCode(500, "ein Fehler ist aufgetreten");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+        return StatusCode(500, "ein Fehler ist aufgetreten");
+    }
+}
 
 
 

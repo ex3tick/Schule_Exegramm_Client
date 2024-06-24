@@ -4,6 +4,7 @@ public class DTOIndex
 {
     public Melder Melder { get; set; } = new Melder();
     public List<SichtungMitBilder> Sichtungen { get; set; } = new List<SichtungMitBilder>();
+
 }
 
 public class SichtungMitBilder
